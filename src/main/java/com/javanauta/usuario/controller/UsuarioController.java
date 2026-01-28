@@ -46,4 +46,11 @@ public class UsuarioController {
         return ResponseEntity.ok().build();
     }
 
+    //Atualiza os dados de usuario usando o Header do token do usuario(email)
+    @PutMapping
+    public ResponseEntity<UsuarioDTO> atualizaDadosUsuario(@RequestBody UsuarioDTO usuarioDTO,
+                                                           @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(usuarioService.atualizaDadosUsuario(token, usuarioDTO));
+    }
+
 }
