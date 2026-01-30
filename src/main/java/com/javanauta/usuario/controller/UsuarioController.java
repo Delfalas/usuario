@@ -68,4 +68,18 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.atualizarTelefone(id, telefoneDTO));
     }
 
+    //Cria e cadastra os dados de Endereco usando o Header do token do usuario(email)----------------------------------
+    @PostMapping("/endereco")
+    public ResponseEntity<EnderecoDTO> cadastrarEndereco(@RequestBody EnderecoDTO enderecoDTO,
+                                                        @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(usuarioService.cadastrarEndereco(token, enderecoDTO));
+    }
+
+    //Cria e cadastra os dados de Telefone usando o Header do token do usuario(email)-----------------------------------
+    @PostMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> cadastrarTelefone(@RequestBody TelefoneDTO telefoneDTO,
+                                                        @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(usuarioService.cadastrarTelefone(token, telefoneDTO));
+    }
+
 }
