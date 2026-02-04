@@ -82,4 +82,25 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.cadastrarTelefone(token, telefoneDTO));
     }
 
+    //Método para deletar telefone
+    @DeleteMapping("/telefone/{id}")
+    public ResponseEntity<Void> deletarTelefone(
+            @PathVariable Long id,
+            @RequestHeader("Authorization") String token) {
+
+        usuarioService.deletarTelefone(token, id);
+        return ResponseEntity.noContent().build();
+    }
+
+    //método para deletar endereco
+    @DeleteMapping("/endereco/{id}")
+    public ResponseEntity<Void> deletarEndereco(
+            @PathVariable Long id,
+            @RequestHeader("Authorization") String token) {
+
+        usuarioService.deletarEndereco(token, id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

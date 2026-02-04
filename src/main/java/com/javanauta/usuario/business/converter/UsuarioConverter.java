@@ -113,6 +113,7 @@ public class UsuarioConverter {
                 .estado(enderecoDTO.getEstado() != null ? enderecoDTO.getEstado() : enderecoEntity.getEstado())
                 .cidade(enderecoDTO.getCidade() != null ? enderecoDTO.getCidade() : enderecoEntity.getCidade())
                 .cep(enderecoDTO.getCep() != null ? enderecoDTO.getCep() : enderecoEntity.getCep())
+                .usuario(enderecoEntity.getUsuario())
                 .build();
     }
 
@@ -122,11 +123,15 @@ public class UsuarioConverter {
                 .id(telefoneEntity.getId())
                 .ddd(telefoneDTO.getDdd() != null ? telefoneDTO.getDdd() : telefoneEntity.getDdd())
                 .numero(telefoneDTO.getNumero() != null ? telefoneDTO.getNumero() : telefoneEntity.getNumero())
+                .usuario(telefoneEntity.getUsuario())
                 .build();
     }
 
     //método para criar endereço
     public Endereco paraEnderecoEntity(EnderecoDTO enderecoDTO, Long idUsuario){
+        Usuario usuario = new Usuario();
+        usuario.setId(idUsuario);
+
         return Endereco.builder()
                 .rua(enderecoDTO.getRua())
                 .numero(enderecoDTO.getNumero())
@@ -134,16 +139,20 @@ public class UsuarioConverter {
                 .estado(enderecoDTO.getEstado())
                 .cidade(enderecoDTO.getCidade())
                 .cep(enderecoDTO.getCep())
-                .usuario_id(idUsuario)
+                .usuario(usuario)
                 .build();
     }
 
     //método para criar telefone
     public Telefone paraTelefoneEntity(TelefoneDTO telefoneDTO, Long idUsuario){
+
+        Usuario usuario = new Usuario();
+        usuario.setId(idUsuario);
+
         return Telefone.builder()
                 .ddd(telefoneDTO.getDdd())
                 .numero(telefoneDTO.getNumero())
-                .usuario_id(idUsuario)
+                .usuario(usuario)
                 .build();
     }
 }
