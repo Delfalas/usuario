@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
@@ -157,5 +159,45 @@ public class UsuarioService {
         enderecoRepository.delete(endereco);
     }
 
+    //CADASTRAR TELEFONE EM LOTE
+    public List<TelefoneDTO> cadastrarTelefones(String token, List<TelefoneDTO> telefonesDTO) {
+
+        String email = jwtUtil.extrairEmailToken(token.substring(7));
+
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado! " + email));
+
+        // Converte lista de DTO para lista de Entity
+        List<Telefone> telefones = telefonesDTO.stream()
+                .map(dto -> usuarioConverter.paraTelefoneEntity(dto, usuario.getId()))
+                .toList();
+
+        // Salva todos de uma vez
+        List<Telefone> telefonesSalvos = telefoneRepository.saveAll(telefones);
+
+        // Converte de volta para DTO
+        return telefonesSalvos.stream()
+                .map(usuarioConverter::paraTelefoneDTO)
+                .toList();
+    }
+
+    //CADASTRAR ENDEREÇO EM LOTE
+    public List<EnderecoDTO> cadastrarEnderecos(String token, List<EnderecoDTO> enderecosDTO) {
+
+        String email = jwtUtil.extrairEmailToken(token.substring(7));
+
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado! " + email));
+
+        List<Endereco> enderecos = enderecosDTO.stream()
+                .map(dto -> usuarioConverter.paraEnderecoEntity(dto, usuario.getId()))
+                .toList();
+
+        List<Endereco> enderecosSalvos = enderecoRepository.saveAll(enderecos);
+
+        return enderecosSalvos.stream()
+                .map(usuarioConverter::paraEnderecoDTO)
+                .toList();
+    }
 
 }
