@@ -12,6 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/usuario")
 @RequiredArgsConstructor
@@ -100,6 +102,24 @@ public class UsuarioController {
 
         usuarioService.deletarEndereco(token, id);
         return ResponseEntity.noContent().build();
+    }
+
+    //CADASTRAR TELEFONE EM LOTE
+    @PostMapping("/telefones/lote")
+    public ResponseEntity<List<TelefoneDTO>> cadastrarTelefones(
+            @RequestHeader("Authorization") String token,
+            @RequestBody List<TelefoneDTO> telefonesDTO) {
+
+        return ResponseEntity.ok(usuarioService.cadastrarTelefones(token, telefonesDTO));
+    }
+
+    //CADASTRAR ENDEREÇO EM LOTE
+    @PostMapping("/enderecos/lote")
+    public ResponseEntity<List<EnderecoDTO>> cadastrarEnderecos(
+            @RequestHeader("Authorization") String token,
+            @RequestBody List<EnderecoDTO> enderecosDTO) {
+
+        return ResponseEntity.ok(usuarioService.cadastrarEnderecos(token, enderecosDTO));
     }
 
 
