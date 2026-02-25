@@ -8,6 +8,7 @@ import com.javanauta.usuario.infrastructure.entity.Endereco;
 import com.javanauta.usuario.infrastructure.entity.Telefone;
 import com.javanauta.usuario.infrastructure.entity.Usuario;
 import com.javanauta.usuario.infrastructure.exceptions.ConflictException;
+import com.javanauta.usuario.infrastructure.exceptions.EmailJaCadastradoException;
 import com.javanauta.usuario.infrastructure.exceptions.ResourceNotFoundException;
 import com.javanauta.usuario.infrastructure.repository.EnderecoRepository;
 import com.javanauta.usuario.infrastructure.repository.TelefoneRepository;
@@ -38,13 +39,8 @@ public class UsuarioService {
     }
 
     public void emailExiste(String email) {
-        try {
-            boolean existe = verificarEmailExistente(email);
-            if (existe) {
-                throw new RuntimeException("Email já cadastrado! " + email);
-            }
-        }catch (ConflictException e) {
-            throw new ConflictException("Email já cadastrado! ", e.getCause());
+        if (verificarEmailExistente(email)) {
+            throw new EmailJaCadastradoException("Email já cadastrado! " + email);
         }
     }
 
