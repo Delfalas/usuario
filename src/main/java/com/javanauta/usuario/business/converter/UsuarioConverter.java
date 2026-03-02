@@ -6,6 +6,7 @@ import com.javanauta.usuario.business.dto.UsuarioDTO;
 import com.javanauta.usuario.infrastructure.entity.Endereco;
 import com.javanauta.usuario.infrastructure.entity.Telefone;
 import com.javanauta.usuario.infrastructure.entity.Usuario;
+import com.javanauta.usuario.infrastructure.entity.enums.Role;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class UsuarioConverter {
                 .nome(usuarioDTO.getNome())
                 .email(usuarioDTO.getEmail())
                 .senha(usuarioDTO.getSenha())
+                .role(usuarioDTO.getRole() != null ? usuarioDTO.getRole() : Role.ROLE_USER)
                 .enderecos(usuarioDTO.getEnderecos() != null ?
                         paraListaEndereco(usuarioDTO.getEnderecos()) : null)
                 .telefones(usuarioDTO.getTelefones() != null ?
@@ -59,6 +61,8 @@ public class UsuarioConverter {
                 .nome(usuario.getNome())
                 .email(usuario.getEmail())
                 .senha(usuario.getSenha())
+                .role(usuario.getRole())
+                .role(usuario.getRole() != null ? usuario.getRole() : Role.ROLE_USER)
                 .enderecos(usuario.getEnderecos() != null ?
                         paraListaEnderecoDTO(usuario.getEnderecos()) : null)
                 .telefones(usuario.getTelefones() != null ?
