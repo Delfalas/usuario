@@ -1,5 +1,6 @@
 package com.javanauta.usuario.infrastructure.entity;
 
+import com.javanauta.usuario.infrastructure.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,6 +27,8 @@ public class Usuario implements UserDetails {
     private String email;
     @Column(name = "senha")
     private String senha;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private List<Endereco> enderecos;
