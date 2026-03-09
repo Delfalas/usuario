@@ -61,7 +61,6 @@ public class UsuarioConverter {
                 .nome(usuario.getNome())
                 .email(usuario.getEmail())
                 .senha(usuario.getSenha())
-                .role(usuario.getRole())
                 .role(usuario.getRole() != null ? usuario.getRole() : Role.ROLE_USER)
                 .enderecos(usuario.getEnderecos() != null ?
                         paraListaEnderecoDTO(usuario.getEnderecos()) : null)
@@ -106,8 +105,9 @@ public class UsuarioConverter {
                 .id(entity.getId())
                 .senha(usuarioDTO.getSenha() != null ? usuarioDTO.getSenha() : entity.getSenha())
                 .email(usuarioDTO.getEmail() != null ? usuarioDTO.getEmail() : entity.getEmail())
-                .enderecos(entity.getEnderecos())
-                .telefones(entity.getTelefones())
+                .role(usuarioDTO.getRole() != null ? usuarioDTO.getRole() : entity.getRole())
+                .enderecos(usuarioDTO.getEnderecos() != null ? paraListaEndereco(usuarioDTO.getEnderecos()) : entity.getEnderecos())
+                .telefones(usuarioDTO.getTelefones() != null ? paraListaTelefone(usuarioDTO.getTelefones()) : entity.getTelefones())
                 .build();
     }
 
