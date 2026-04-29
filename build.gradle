@@ -2,6 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.5'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id "org.sonarqube" version "5.0.0.4638"
+
 }
 
 group = 'com.javanauta'
@@ -46,7 +48,7 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 dependencyManagement {
@@ -57,4 +59,20 @@ dependencyManagement {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.named("sonar") {
+	dependsOn test
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.release = 21
+}
+
+sonarqube {
+	properties {
+		property "sonar.projectKey", "usuario"
+		property "sonar.host.url", "http://localhost:9000/"
+		property "sonar.login", "sqa_b3486abcd14be94d7e2efa3192067a42761eea60"
+	}
 }
